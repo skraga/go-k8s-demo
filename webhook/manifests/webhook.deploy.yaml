@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-webhook
+  name: demo-webhook
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-webhook
+  template:
+    metadata:
+      labels:
+        app: demo-webhook
+    spec:
+      containers:
+      - image: demo-webhook:latest
+        imagePullPolicy: Never
+        name: demo-webhook
+        volumeMounts:
+        - name: tls
+          mountPath: "/opt"
+          readOnly: true
+      volumes:
+      - name: tls
+        secret:
+          secretName: demo-webhook-tls

@@ -12,44 +12,15 @@ This project can fully run locally and includes automation to deploy a local Kub
 * Make
 
 ### Create Cluster
-First, we need to create a Kubernetes cluster:
 ```
+# First, we need to create a Kubernetes cluster:
 ❯ make cluster
-kind create cluster --config kind.yaml
-Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.27.0) 🖼 
- ✓ Preparing nodes 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing CNI 🔌 
- ✓ Installing StorageClass 💾 
-Set kubectl context to "kind-kind"
-You can now use your cluster with:
 
-kubectl cluster-info --context kind-kind
-
-Have a nice day! 👋
-```
-
-Make sure that the Kubernetes node is ready:
-```
+# Make sure that the Kubernetes node is up:
 ❯ kubectl get nodes
-NAME                 STATUS   ROLES           AGE   VERSION
-kind-control-plane   Ready    control-plane   33s   v1.27.0
-```
 
-And that system pods are running happily:
-```
+# Make sure all pods are up:
 ❯ kubectl get pods -n kube-system
-NAME                                         READY   STATUS    RESTARTS   AGE
-coredns-5d78c9869d-s4wz7                     1/1     Running   0          38s
-coredns-5d78c9869d-xn2mt                     1/1     Running   0          38s
-etcd-kind-control-plane                      1/1     Running   0          52s
-kindnet-s8f9g                                1/1     Running   0          39s
-kube-apiserver-kind-control-plane            1/1     Running   0          52s
-kube-controller-manager-kind-control-plane   1/1     Running   0          52s
-kube-proxy-wb6m6                             1/1     Running   0          39s
-kube-scheduler-kind-control-plane            1/1     Running   0          52s
 ```
 
 ### Usage
