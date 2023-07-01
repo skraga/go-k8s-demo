@@ -36,13 +36,13 @@ deploy: tls ## Deploy webhook
 	kubectl delete --ignore-not-found=true -f manifests/
 	kubectl apply -f manifests/
 
-.PHONY: pod-fail
-pod-fail: ns-create ## Pod creation should fail because of validating webhook
-	kubectl run pod-fail --image=nginx -n apps || :
+.PHONY: pod1
+pod1: ns-create ## Pod creation should fail because of validating webhook
+	kubectl run pod1 --image=nginx -n apps || :
 
-.PHONY: pod
-pod: ns-create ## Pod creation should succeed webhook validation
-	kubectl run pod-ok --image=nginx -n apps --labels=appid=12345
+.PHONY: pod2
+pod2: ns-create ## Pod creation should succeed webhook validation
+	kubectl run pod2 --image=nginx -n apps --labels=appid=12345
 
 .PHONY: ns-create
 ns-create: ns-delete ## Create test namespace (apps) with proper label (demo-webhook=enabled)
