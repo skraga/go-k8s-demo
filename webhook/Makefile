@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := help
 SHELL=/bin/bash -eo pipefail
 
-.PHONY: go-lint
-go-lint: ## Run golangci-lint
+.PHONY: lint
+lint: ## Run golangci-lint
 	@docker run --rm -v $(dir $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
-	-w /app golangci/golangci-lint golangci-lint run -v
+	-w /app golangci/golangci-lint golangci-lint run -v --timeout 5m
 
 .PHONY: build
 build: ## Build webhook

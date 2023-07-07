@@ -9,10 +9,10 @@ WORKDIR /build
 COPY . /build
 
 RUN --mount=type=cache,target=/root/.cache/go-build \
-  go build -ldflags '-s -w' -o bin/demo-webhook .
+  go build -ldflags '-s -w' -o bin/demo-controller .
 
 FROM scratch AS runtime
 
-COPY --from=build /build/bin/demo-webhook /usr/local/bin/
+COPY --from=build /build/bin/demo-controller /usr/local/bin/
 USER 10001
-CMD ["demo-webhook"]
+CMD ["demo-controller"]

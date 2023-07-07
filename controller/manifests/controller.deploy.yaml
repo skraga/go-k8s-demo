@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-controller
+  name: demo-controller
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-controller
+  template:
+    metadata:
+      labels:
+        app: demo-controller
+    spec:
+      serviceAccountName: demo-controller
+      containers:
+      - image: demo-controller:latest
+        imagePullPolicy: Never
+        name: demo-controller
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500M
+

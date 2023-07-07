@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	admissionv1 "k8s.io/api/admission/v1"
@@ -40,7 +40,7 @@ func admissionReviewFromRequest(r *http.Request, deserializer runtime.Decoder) (
 
 	var body []byte
 	if r.Body != nil {
-		requestData, err := ioutil.ReadAll(r.Body)
+		requestData, err := io.ReadAll(r.Body)
 		if err != nil {
 			return nil, err
 		}

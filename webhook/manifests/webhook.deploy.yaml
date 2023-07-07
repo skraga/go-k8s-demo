@@ -19,6 +19,10 @@ spec:
       - image: demo-webhook:latest
         imagePullPolicy: Never
         name: demo-webhook
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500M
         volumeMounts:
         - name: tls
           mountPath: "/opt"
