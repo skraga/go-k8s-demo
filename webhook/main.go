@@ -24,8 +24,11 @@ var (
 )
 
 func main() {
+	// Set up HTTP request handlers
 	http.HandleFunc("/validate", validatePod)
 	http.HandleFunc("/mutate", mutatePod)
+
+	// Start the server and listen for HTTPS connections
 	err := http.ListenAndServeTLS(ListenAddr, "/opt/tls.crt", "/opt/tls.key", nil)
 	if err != nil {
 		klog.Fatalln("Failed to start the server:", err)
@@ -33,6 +36,7 @@ func main() {
 	klog.Infoln("Server started successfully ", ListenAddr)
 }
 
+// admissionReviewFromRequest extracts the AdmissionReview object from the HTTP request.
 func admissionReviewFromRequest(r *http.Request, deserializer runtime.Decoder) (*admissionv1.AdmissionReview, error) {
 	if r.Header.Get("Content-Type") != "application/json" {
 		return nil, fmt.Errorf("expected application/json content-type")
@@ -54,6 +58,7 @@ func admissionReviewFromRequest(r *http.Request, deserializer runtime.Decoder) (
 	return admissionReviewRequest, nil
 }
 
+// validatePod is an HTTP request handler for validating Pod objects.
 func validatePod(w http.ResponseWriter, r *http.Request) {
 	deserializer := codecs.UniversalDeserializer()
 	admissionReviewRequest, err := admissionReviewFromRequest(r, deserializer)
@@ -83,11 +88,13 @@ func validatePod(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(msg))
 		return
 	}
+
 	klog.Infof("Received request: %s %s => %s/%s", r.Method, r.URL.Path, pod.Namespace, pod.Name)
 
 	admissionResponse := &admissionv1.AdmissionResponse{}
 	admissionResponse.Allowed = true
 
+	// Check if the Pod has the required label
 	if _, ok := pod.Labels[RequiredLabel]; !ok {
 		admissionResponse.Allowed = false
 		admissionResponse.Result = &metav1.Status{
@@ -113,6 +120,7 @@ func validatePod(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(resp)
 }
 
+// mutatePod is an HTTP request handler for mutating Pod objects.
 func mutatePod(w http.ResponseWriter, r *http.Request) {
 	deserializer := codecs.UniversalDeserializer()
 	admissionReviewRequest, err := admissionReviewFromRequest(r, deserializer)

@@ -10,6 +10,7 @@ This project can fully run locally and includes automation to deploy a local Kub
 * kubectl
 * Go
 * Make
+* yq
 
 ### Create Cluster
 ```
