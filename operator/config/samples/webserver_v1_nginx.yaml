@@ -1,0 +1,14 @@
+apiVersion: webserver.demo.local/v1
+kind: Nginx
+metadata:
+  labels:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/instance: nginx-sample
+    app.kubernetes.io/part-of: demo-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: demo-operator
+  name: nginx-sample
+spec:
+  replicas: 2
+  image: nginx
+  port: 8080

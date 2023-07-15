@@ -3,7 +3,7 @@ SHELL=/bin/bash -eo pipefail
 
 .PHONY: lint
 lint: ## Run golangci-lint
-	@docker run --rm -v $(dir $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
+	@docker run --rm -v $(shell pwd):/app \
 	-w /app golangci/golangci-lint golangci-lint run -v --timeout 5m
 
 .PHONY: build

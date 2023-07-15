@@ -3,7 +3,7 @@ SHELL=/bin/bash -eo pipefail
 
 .PHONY: lint
 lint: ## Run golangci-lint
-	@docker run --rm -v $(dir $(realpath $(lastword $(MAKEFILE_LIST)))):/app \
+	@docker run --rm -v $(shell pwd):/app \
 	-w /app golangci/golangci-lint golangci-lint run -v --timeout 5m
 
 .PHONY: build
@@ -41,4 +41,4 @@ logs: ## Show controller logs
 
 .PHONY: help
 help: ## Display this help screen
-	@grep -E '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-14s\033[0m %s\n", $$1, $$2}'

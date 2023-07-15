@@ -14,5 +14,5 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 FROM scratch AS runtime
 
 COPY --from=build /build/bin/demo-webhook /usr/local/bin/
-USER 10001
+USER 65532:65532
 CMD ["demo-webhook"]
